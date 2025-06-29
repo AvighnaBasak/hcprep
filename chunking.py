@@ -5,7 +5,7 @@ from pprint import pprint
 def clean(text):
     return text.strip().replace('\n', ' ').replace('\r', '').strip()
 
-def chunk_format(filepath):
+def chunk_play_format(lines):
     chunks = []
     current_act = None
     current_scene = None
@@ -13,24 +13,22 @@ def chunk_format(filepath):
     act_id = 0
     scene_id = 0
 
-    with open(filepath, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-
     for line in lines:
         line_clean = line.strip()
         if not line_clean:
             continue
 
-        #-------detect-act------------------------------
+        # Detect ACT lines like "ACT I"
         if re.match(r'^ACT\s+[IVXLC]+$', line_clean, re.IGNORECASE):
+            # Save previous scene if any
             if current_scene and buffer:
-                #----------------save the previos scene----------------------
+                content = clean("\n".join(buffer))
                 chunks.append({
                     "id": f"{act_id}.{scene_id}",
                     "heading": f"{current_act} - {current_scene}",
                     "depth": 2,
-                    "parent_id": f"{act_id}",
-                    "content": "\n".join([l.strip() for l in buffer]).strip()
+                    "parent_id": str(act_id),
+                    "content": content
                 })
                 buffer = []
                 current_scene = None
@@ -39,22 +37,24 @@ def chunk_format(filepath):
             scene_id = 0
             current_act = line_clean
             chunks.append({
-                "id": f"{act_id}",
+                "id": str(act_id),
                 "heading": current_act,
                 "depth": 1,
                 "parent_id": None,
-                "content": ""  
+                "content": ""
             })
 
+        # Detect SCENE lines like "SCENE I. A street."
         elif re.match(r'^SCENE\s+[\w\d\.]+', line_clean, re.IGNORECASE):
+            # Save previous scene
             if current_scene and buffer:
-                
+                content = clean("\n".join(buffer))
                 chunks.append({
                     "id": f"{act_id}.{scene_id}",
                     "heading": f"{current_act} - {current_scene}",
                     "depth": 2,
-                    "parent_id": f"{act_id}",
-                    "content": "\n".join([l.strip() for l in buffer]).strip()
+                    "parent_id": str(act_id),
+                    "content": content
                 })
                 buffer = []
 
@@ -62,31 +62,75 @@ def chunk_format(filepath):
             current_scene = line_clean
 
         else:
-            buffer.append(line)
+            buffer.append(line_clean)
 
-    #-------------- last scene-------------------------
+    # Save last scene
     if current_scene and buffer:
+        content = clean("\n".join(buffer))
         chunks.append({
             "id": f"{act_id}.{scene_id}",
             "heading": f"{current_act} - {current_scene}",
             "depth": 2,
-            "parent_id": f"{act_id}",
-            "content": "\n".join([l.strip() for l in buffer]).strip()
+            "parent_id": str(act_id),
+            "content": content
         })
 
     return chunks
 
-#-------main fucn-----------------
+def chunk_generic_format(lines, max_chunk_lines=20):
+    chunks = []
+    buffer = []
+    chunk_id = 1
+
+    for line in lines:
+        line_clean = line.strip()
+        if not line_clean:
+            continue
+
+        buffer.append(line_clean)
+        if len(buffer) >= max_chunk_lines:
+            content = clean("\n".join(buffer))
+            chunks.append({
+                "id": str(chunk_id),
+                "heading": f"Chunk {chunk_id}",
+                "depth": 1,
+                "parent_id": None,
+                "content": content
+            })
+            chunk_id += 1
+            buffer = []
+
+    # Save any leftover lines
+    if buffer:
+        content = clean("\n".join(buffer))
+        chunks.append({
+            "id": str(chunk_id),
+            "heading": f"Chunk {chunk_id}",
+            "depth": 1,
+            "parent_id": None,
+            "content": content
+        })
+
+    return chunks
+
 if __name__ == "__main__":
-    file_path = "test.txt" 
-    chunks = chunk_format(file_path)
+    file_path = "test.txt"  
 
-    if not chunks:
-        print("No chunks detected.")
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    chunks = chunk_play_format(lines)
+
+    if chunks:
+        print(f"Detected play format. Chunked into {len(chunks)} sections.")
     else:
-        print(f" Chunked {len(chunks)} sections from {file_path}")
-        pprint(chunks[:2])
+        print("No ACT/SCENE detected. Using generic chunking...")
+        chunks = chunk_generic_format(lines)
+        print(f"Chunked into {len(chunks)} generic sections.")
 
-        with open("generic_chunks.json", "w", encoding="utf-8") as f:
-            json.dump(chunks, f, indent=2)
-        print("\nSaved to generic_chunks.json")
+    pprint(chunks[:2])
+
+    with open("generic_chunks.json", "w", encoding="utf-8") as f:
+        json.dump(chunks, f, indent=2)
+
+    print("\nSaved chunks to generic_chunks.json")
