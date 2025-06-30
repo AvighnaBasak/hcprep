@@ -77,7 +77,7 @@ def chunk_play_format(lines):
 
     return chunks
 
-def chunk_generic_format(lines, max_chunk_lines=20):
+def chunk_generic_format(lines, max_chunk_lines=30):
     chunks = []
     buffer = []
     chunk_id = 1
@@ -100,7 +100,6 @@ def chunk_generic_format(lines, max_chunk_lines=20):
             chunk_id += 1
             buffer = []
 
-    # Save any leftover lines
     if buffer:
         content = clean("\n".join(buffer))
         chunks.append({
@@ -114,23 +113,28 @@ def chunk_generic_format(lines, max_chunk_lines=20):
     return chunks
 
 if __name__ == "__main__":
-    file_path = "test.txt"  
+    file_path = "test.txt"
 
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
-    chunks = chunk_play_format(lines)
+    # Try play format first
+    play_chunks = chunk_play_format(lines)
 
-    if chunks:
-        print(f"Detected play format. Chunked into {len(chunks)} sections.")
+    # If we got multiple ACT/SCENE chunks, use it
+    if len(play_chunks) > 3:
+        chunks = play_chunks
+        print(f"✅ Detected play format. Chunked into {len(chunks)} ACT/SCENE sections.")
     else:
-        print("No ACT/SCENE detected. Using generic chunking...")
+        # Fallback to generic format
         chunks = chunk_generic_format(lines)
-        print(f"Chunked into {len(chunks)} generic sections.")
+        print(f"⚙️ No ACT/SCENE detected. Using generic chunking... {len(chunks)} chunks created.")
 
+    # Show preview
     pprint(chunks[:2])
 
+    # Save chunks
     with open("generic_chunks.json", "w", encoding="utf-8") as f:
         json.dump(chunks, f, indent=2)
 
-    print("\nSaved chunks to generic_chunks.json")
+    print("\n✅ Saved chunks to generic_chunks.json")
