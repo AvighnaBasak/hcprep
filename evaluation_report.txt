@@ -1,0 +1,154 @@
+OBJECTIVE EVALUATION REPORT
+==================================================
+
+QUALITY THRESHOLDS USED (First Iteration Only):
+  semantic_similarity: 0.7
+  content_word_overlap: 0.6
+  bigram_overlap: 0.4
+  entity_preservation: 0.8
+  word_count_ratio: 0.5
+  tfidf_similarity: 0.5
+  information_density: 0.6
+  readability_improvement: 0.5
+  sentence_structure_score: 0.4
+  trigram_overlap: 0.3
+
+ITERATION 1 RESULTS:
+------------------------------
+Success Rate: 0/10 (0.0%)
+Average Attempts: 3.0
+Step Reduction: -3504.5% (from previous iteration)
+Total Reduction: -3504.5% (from original)
+Overall Quality Score: 0.364
+
+Metric Averages (vs Original):
+  ❌ semantic_similarity: 0.624 (threshold: 0.7)
+  ❌ content_word_overlap: 0.123 (threshold: 0.6)
+  ❌ bigram_overlap: 0.039 (threshold: 0.4)
+  ❌ entity_preservation: 0.229 (threshold: 0.8)
+  ✅ word_count_ratio: 0.868 (threshold: 0.5)
+  ❌ tfidf_similarity: 0.217 (threshold: 0.5)
+  ✅ information_density: 0.949 (threshold: 0.6)
+  ✅ readability_improvement: 0.500 (threshold: 0.5)
+  ❌ sentence_structure_score: 0.075 (threshold: 0.4)
+  ❌ trigram_overlap: 0.014 (threshold: 0.3)
+
+ITERATION 2 RESULTS:
+------------------------------
+Success Rate: 10/10 (100.0%)
+Average Attempts: 1.0
+Step Reduction: 63.3% (from previous iteration)
+Total Reduction: -1305.9% (from original)
+Overall Quality Score: 0.305
+
+Metric Averages (vs Original):
+  📊 semantic_similarity: 0.559
+  📊 content_word_overlap: 0.054
+  📊 bigram_overlap: 0.012
+  📊 entity_preservation: 0.195
+  📊 word_count_ratio: 0.527
+  📊 tfidf_similarity: 0.173
+  📊 information_density: 0.958
+  📊 readability_improvement: 0.500
+  📊 sentence_structure_score: 0.069
+  📊 trigram_overlap: 0.002
+
+ITERATION 3 RESULTS:
+------------------------------
+Success Rate: 10/10 (100.0%)
+Average Attempts: 1.0
+Step Reduction: 27.9% (from previous iteration)
+Total Reduction: -1081.1% (from original)
+Overall Quality Score: 0.285
+
+Metric Averages (vs Original):
+  📊 semantic_similarity: 0.540
+  📊 content_word_overlap: 0.038
+  📊 bigram_overlap: 0.008
+  📊 entity_preservation: 0.185
+  📊 word_count_ratio: 0.370
+  📊 tfidf_similarity: 0.159
+  📊 information_density: 0.956
+  📊 readability_improvement: 0.500
+  📊 sentence_structure_score: 0.093
+  📊 trigram_overlap: 0.000
+
+COMPRESSION PROGRESSION:
+------------------------------
+Original Average: 1070 words
+Iteration 1: 473 words
+Iteration 2: 170 words
+Iteration 3: 120 words
+
+FINAL RESULTS BY CHUNK:
+------------------------------
+
+Chunk 1: ACT IV - SCENE I. Friar Lawrence’s Cell.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 1079 → 88
+  Total Reduction: 91.8%
+  Overall Score: 0.286
+
+Chunk 2: ACT V - SCENE III. A churchyard; in it a Monument belonging to the Capulets.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 2702 → 253
+  Total Reduction: 90.6%
+  Overall Score: 0.282
+
+Chunk 3: ACT II - SCENE V. Capulet’s Garden.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 695 → 84
+  Total Reduction: 87.9%
+  Overall Score: 0.285
+
+Chunk 4: ACT II - Scene V. A Hall in Capulet’s House.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 1 → 117
+  Total Reduction: -11600.0%
+  Overall Score: 0.235
+
+Chunk 5: ACT V - Scene III. A churchyard; in it a Monument belonging to the Capulets.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 271 → 72
+  Total Reduction: 73.4%
+  Overall Score: 0.377
+
+Chunk 6: ACT I - SCENE I. A public place.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 1976 → 78
+  Total Reduction: 96.1%
+  Overall Score: 0.241
+
+Chunk 7: ACT I - SCENE II. A Street.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 848 → 120
+  Total Reduction: 85.8%
+  Overall Score: 0.278
+
+Chunk 8: ACT I - SCENE III. Room in Capulet’s House.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 929 → 101
+  Total Reduction: 89.1%
+  Overall Score: 0.264
+
+Chunk 9: ACT I - SCENE IV. A Street.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 946 → 99
+  Total Reduction: 89.5%
+  Overall Score: 0.333
+
+Chunk 10: ACT I - SCENE V. A Hall in Capulet’s House.
+  Success: ✅
+  Attempts: 1
+  Original → Final: 1253 → 191
+  Total Reduction: 84.8%
+  Overall Score: 0.267

@@ -39,7 +39,7 @@ def rank_chunks(chunks, query, score_threshold=0.05, min_chunks=5):
 if __name__ == "__main__":
     chunks = load_chunks("generic_chunks.json")
 
-    query = "Summarize how Romeo moves on from Rosaline to Juliet, who is from a rival family, and how love and fate help them meet despite the danger."
+    query = "Summarize the text"
 
     ranked_chunks = rank_chunks(chunks, query, score_threshold=0.06, min_chunks=10)
 
