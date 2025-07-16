@@ -4,10 +4,10 @@ from rouge_score import rouge_scorer
 with open("test_summary.txt", "r", encoding="utf-8") as f:
     ref_summary = f.read()
 
-with open("summary_without_hcprep.txt", "r", encoding="utf-8") as f:
+with open("summary.txt", "r", encoding="utf-8") as f:
     llm_summary = f.read()
 
-with open("summary_with_hcprep.txt", "r", encoding="utf-8") as f:
+with open("hcprepsummary.txt", "r", encoding="utf-8") as f:
     compressed_summary = f.read()
 
 # Initialize scorer
